@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Button as QuoteButton } from "../components/ui/button";
+import { useState } from "react";
 
 const assets = {
   logoDark: "/carLogo-Picsart-BackgroundRemover.png",
@@ -422,13 +425,45 @@ function Team() {
   );
 }
 
+const reviews = [
+  {
+    name: "Sarah L.",
+    quote:
+      "I had my interior detailing done at Super Shine, and they did an incredible job! My car looks and smells like new again. The attention to detail and the level of cleanliness they achieved exceeded my expectations. Highly recommended!",
+    car: "AUDI TT / Ceramic Coating",
+  },
+  {
+    name: "Michael R.",
+    quote:
+      "The express lube service was fast and affordable. They even threw in a free car wash. I have been coming here for months and will not go anywhere else.",
+    car: "Ford F-150 / Express Lube",
+  },
+  {
+    name: "Jessica T.",
+    quote:
+      "I got the full showroom detailing package and my car looks better than the day I bought it. The paint correction and wax work is absolutely flawless.",
+    car: "BMW 3 Series / Showroom Detailing",
+  },
+  {
+    name: "David K.",
+    quote:
+      "Super clean facility, friendly staff, and my truck has never looked better. The Wheel Deal package is an incredible value for the level of service you get.",
+    car: "Toyota Tundra / Deluxe Wash",
+  },
+];
+
 function Testimonials() {
+  const [current, setCurrent] = useState(0);
+  const review = reviews[current];
+  const prev = () => setCurrent((c) => (c === 0 ? reviews.length - 1 : c - 1));
+  const next = () => setCurrent((c) => (c === reviews.length - 1 ? 0 : c + 1));
+
   return (
     <section className="testimonial-section">
       <div className="testimonial-container">
         <div className="testimonial-heading">
           <span aria-hidden="true" />
-          <h2>Client's Reviews</h2>
+          <h2>Client Reviews</h2>
         </div>
         <div className="testimonial-content">
           <div className="testimonial-image">
@@ -436,30 +471,24 @@ function Testimonials() {
           </div>
           <div className="testimonial-card">
             <div className="reviewer">
-              <span>S</span>
               <div>
-                <strong>Sarah L.</strong>
+                <strong>{review.name}</strong>
               </div>
             </div>
-            <blockquote>
-              "I had my interior detailing done at Super Shine, and they
-              did an incredible job! My car looks and smells like new again. The
-              attention to detail and the level of cleanliness they achieved
-              exceeded my expectations. Highly recommended!"
-            </blockquote>
+            <blockquote>{review.quote}</blockquote>
             <div className="testimonial-bottom">
               <div className="stars" aria-label="Five star review">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <img key={index} src={assets.star} alt="" aria-hidden="true" />
                 ))}
               </div>
-              <p>AUDI TT / Ceramic Coating</p>
+              <p>{review.car}</p>
             </div>
-            <div className="testimonial-arrows" aria-hidden="true">
-              <button type="button" tabIndex="-1">
+            <div className="testimonial-arrows">
+              <button type="button" onClick={prev} aria-label="Previous review">
                 <img src={assets.sliderArrow} alt="" />
               </button>
-              <button type="button" tabIndex="-1">
+              <button type="button" onClick={next} aria-label="Next review">
                 <img src={assets.sliderArrow} alt="" />
               </button>
             </div>
