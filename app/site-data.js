@@ -19,8 +19,7 @@ export const navLinks = [
   { label: "About Us", href: "/about-us" },
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Deals", href: "/pricing" },
-  { label: "All Pages", href: "/all-pages" },
+  { label: "Join Us", href: "/career" },
 ];
 
 export const serviceCards = [

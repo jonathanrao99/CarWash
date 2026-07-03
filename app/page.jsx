@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { Button } from "../components/ui/button";
+import { SiteHeader } from "./site-chrome";
 import { useState } from "react";
 import { Phone } from "lucide-react";
 
 const assets = {
   logoDark: "/carLogo-Picsart-BackgroundRemover.png",
   logoLight: "/carLogo-Picsart-BackgroundRemover.png",
-  mobileMenu: "https://framerusercontent.com/images/vVYHAbeDIbmiJN1MASeUFat5cQ.svg?width=28&height=17",
   heroPoster: "https://framerusercontent.com/images/gzHC3Xty578XYOqHN6HBF8rrx8.png?width=1920&height=830",
   heroVideo: "https://www.pexels.com/download/video/6872078/",
   aboutPoster: "https://framerusercontent.com/images/PeAMp2e1c9Rltp9k04bvgvOmNDw.png?width=1256&height=661",
@@ -20,17 +20,8 @@ const assets = {
   contactVideo: "https://www.pexels.com/download/video/6161372/",
   reviewCar: "https://framerusercontent.com/images/FmrlMGjkgZZm1cFKZNX8DZ2ZeM.jpg",
   star: "https://framerusercontent.com/images/2mBYMQOtgZ5Ljt4AC35wIbtM2o.svg",
-  arrow: "https://framerusercontent.com/images/x1BFp7rT3Ec3n3O2JHzDaXdk0.svg",
   sliderArrow: "https://framerusercontent.com/images/H9hzrU7BlDATvTv5YKZROQa7Fo.svg",
 };
-
-const navLinks = [
-  { label: "About Us", href: "/about-us" },
-  { label: "Services", href: "/services" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Join Us", href: "/career" },
-  { label: "All Pages", href: "/all-pages" },
-];
 
 const serviceCards = [
   {
@@ -170,7 +161,7 @@ function SectionHeading({ eyebrow, title, copy, action }) {
 export default function Home() {
   return (
     <main>
-      <Header />
+      <SiteHeader />
       <Hero />
       <About />
       <Services />
@@ -181,38 +172,6 @@ export default function Home() {
       <Appointment />
       <Footer />
     </main>
-  );
-}
-
-function Header() {
-  return (
-    <header className="site-header">
-      <div className="header-inner">
-        <div className="header-left">
-          <Link className="logo" href="/" aria-label="CarWashSuperShine home">
-            <img src={assets.logoDark} alt="CarWashSuperShine" />
-          </Link>
-          <nav className="desktop-nav" aria-label="Primary navigation">
-            {navLinks.map((link) => (
-              <Link
-                className={link.label === "All Pages" ? "all-pages-link" : undefined}
-                key={link.label}
-                href={link.href}
-              >
-                <span>{link.label}</span>
-                {link.label === "All Pages" ? (
-                  <img src={assets.arrow} alt="" aria-hidden="true" />
-                ) : null}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <Button href="/contact-us">Book My Wash</Button>
-        <Link className="mobile-menu-button" href="/all-pages" aria-label="Open navigation">
-          <img src={assets.mobileMenu} alt="" aria-hidden="true" />
-        </Link>
-      </div>
-    </header>
   );
 }
 

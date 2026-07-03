@@ -265,7 +265,7 @@ h3 {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -358,31 +358,182 @@ h3 {
 }
 
 .desktop-nav a,
-.all-pages-link,
 .mobile-menu-button {
   display: inline-flex;
   align-items: center;
 }
 
-.all-pages-link {
-  gap: 6px;
-}
-
-.all-pages-link img {
-  width: 10px;
-  height: 10px;
-}
-
 .mobile-menu-button {
   display: none;
-  width: 28px;
-  height: 17px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .mobile-menu-button img {
-  width: 100%;
-  height: 100%;
+  width: 28px;
+  height: 17px;
   object-fit: contain;
+}
+
+.site-header.transparent:not(.scrolled) .mobile-menu-button img {
+  filter: invert(1);
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  border: 0;
+  background: rgba(0,0,0,0.56);
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: hidden;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1002;
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.34s ease;
+  visibility: hidden;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+}
+
+.mobile-menu.active {
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 18px clamp(20px, 5vw, 36px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.mobile-menu-header .logo {
+  width: 112px;
+  height: 52px;
+}
+
+.mobile-menu-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 999px;
+  background: #f6f6f6;
+  padding: 0;
+  cursor: pointer;
+  color: var(--black);
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.mobile-menu-close:hover {
+  border-color: var(--red);
+  background: var(--red);
+  color: white;
+}
+
+.mobile-menu-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: clamp(18px, 4vw, 28px) clamp(20px, 5vw, 36px);
+  gap: 0;
+}
+
+.mobile-menu-link {
+  font-family: "Anton", Impact, sans-serif;
+  font-size: clamp(1.55rem, 5vw, 2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--black);
+  text-decoration: none;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  opacity: 0;
+  transform: translateX(24px);
+  transition: color 0.2s ease, opacity 0.26s ease, transform 0.26s ease;
+}
+
+.mobile-menu.active .mobile-menu-link {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile-menu.active .mobile-menu-link:nth-child(1) { transition-delay: 70ms; }
+.mobile-menu.active .mobile-menu-link:nth-child(2) { transition-delay: 100ms; }
+.mobile-menu.active .mobile-menu-link:nth-child(3) { transition-delay: 130ms; }
+.mobile-menu.active .mobile-menu-link:nth-child(4) { transition-delay: 160ms; }
+.mobile-menu.active .mobile-menu-link:nth-child(5) { transition-delay: 190ms; }
+.mobile-menu.active .mobile-menu-link:nth-child(6) { transition-delay: 220ms; }
+.mobile-menu.active .mobile-menu-link:nth-child(7) { transition-delay: 250ms; }
+.mobile-menu.active .mobile-menu-link:nth-child(8) { transition-delay: 280ms; }
+
+.mobile-menu-link:hover,
+.mobile-menu-link.active {
+  color: var(--red);
+}
+
+.mobile-menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px clamp(20px, 5vw, 36px) 24px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  background: white;
+}
+
+.mobile-menu-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.mobile-menu-footer .button {
+  display: inline-flex;
+  width: min(100%, 360px);
 }
 
 .desktop-nav a:hover,
@@ -1975,7 +2126,7 @@ blockquote {
     height: 56px;
   }
 
-  .site-header .button {
+  .header-inner > .button {
     display: none;
   }
 

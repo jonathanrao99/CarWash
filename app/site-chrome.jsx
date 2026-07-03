@@ -1,9 +1,15 @@
+"use client";
+
+import { startTransition, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { assets, footerLinks, navLinks } from "./site-data";
 import { Button as AnimatedButton } from "../components/ui/button";
-import { Phone } from "lucide-react";
+import { Phone, X } from "lucide-react";
 
 export const Button = AnimatedButton;
+
+const MOBILE_MENU_CLOSE_MS = 320;
 
 export function SectionHeading({ eyebrow, title, copy, action }) {
   return (
@@ -19,7 +25,73 @@ export function SectionHeading({ eyebrow, title, copy, action }) {
 }
 
 export function SiteHeader({ transparent, scrolled }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeButtonRef = useRef(null);
+  const closeTimerRef = useRef(null);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const mobileLinks = [
+    { label: "Home", href: "/" },
+    ...navLinks,
+    { label: "Blog", href: "/blog" },
+    { label: "Our Team", href: "/our-team" },
+    { label: "Contact", href: "/contact-us" },
+  ];
+
+  const closeMobileMenu = () => {
+    window.clearTimeout(closeTimerRef.current);
+    setMenuOpen(false);
+  };
+
+  const openMobileMenu = () => {
+    window.clearTimeout(closeTimerRef.current);
+    setMenuOpen(true);
+  };
+
+  const handleMobileNavigate = (href) => (event) => {
+    event.preventDefault();
+
+    if (href === pathname) {
+      closeMobileMenu();
+      return;
+    }
+
+    setMenuOpen(false);
+    window.clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = window.setTimeout(() => {
+      startTransition(() => router.push(href));
+    }, MOBILE_MENU_CLOSE_MS);
+  };
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") closeMobileMenu();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKeyDown);
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    return () => window.clearTimeout(closeTimerRef.current);
+  }, []);
+
   const headerClass = `site-header${transparent ? " transparent" : ""}${scrolled ? " scrolled" : ""}`;
+
   return (
     <header className={headerClass}>
       <div className="header-inner">
@@ -29,24 +101,70 @@ export function SiteHeader({ transparent, scrolled }) {
           </Link>
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navLinks.map((link) => (
-              <Link
-                className={link.label === "All Pages" ? "all-pages-link" : undefined}
-                key={link.label}
-                href={link.href}
-              >
+              <Link key={link.label} href={link.href}>
                 <span>{link.label}</span>
-                {link.label === "All Pages" ? (
-                  <img src={assets.navArrow} alt="" aria-hidden="true" />
-                ) : null}
               </Link>
             ))}
           </nav>
         </div>
         <Button href="/contact-us">Book My Wash</Button>
-        <Link className="mobile-menu-button" href="/all-pages" aria-label="Open navigation">
+        <button
+          className="mobile-menu-button"
+          type="button"
+          onClick={openMobileMenu}
+          aria-label="Open navigation"
+          aria-controls="mobile-navigation"
+          aria-expanded={menuOpen}
+        >
           <img src={assets.mobileMenu} alt="" aria-hidden="true" />
-        </Link>
+        </button>
       </div>
+      <button
+        className={`mobile-overlay${menuOpen ? " active" : ""}`}
+        type="button"
+        onClick={closeMobileMenu}
+        aria-label="Close navigation"
+        tabIndex={menuOpen ? 0 : -1}
+      />
+      <nav
+        id="mobile-navigation"
+        className={`mobile-menu${menuOpen ? " active" : ""}`}
+        aria-label="Mobile navigation"
+      >
+        <div className="mobile-menu-header">
+          <Link className="logo" href="/" aria-label="CarWashSuperShine home" onClick={handleMobileNavigate("/")} tabIndex={menuOpen ? 0 : -1}>
+            <img src={assets.logoDark} alt="CarWashSuperShine" />
+          </Link>
+          <button
+            className="mobile-menu-close"
+            type="button"
+            ref={closeButtonRef}
+            onClick={closeMobileMenu}
+            aria-label="Close navigation"
+            tabIndex={menuOpen ? 0 : -1}
+          >
+            <X size={24} />
+          </button>
+        </div>
+        <div className="mobile-menu-links">
+          {mobileLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={`mobile-menu-link${pathname === link.href ? " active" : ""}`}
+              onClick={handleMobileNavigate(link.href)}
+              aria-current={pathname === link.href ? "page" : undefined}
+              tabIndex={menuOpen ? 0 : -1}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+        <div className="mobile-menu-footer">
+          <p>12810 Westheimer Road, Houston, TX</p>
+          <Button href="/contact-us" onClick={handleMobileNavigate("/contact-us")} tabIndex={menuOpen ? 0 : -1}>Book My Wash</Button>
+        </div>
+      </nav>
     </header>
   );
 }
