@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-export function Button({ children, href = "/contact-us" }) {
+export function Button({ children, href = "/contact-us", variant }) {
+  const className = variant ? `button animated ${variant}` : "button animated";
   const content = (
     <>
       <span className="btn-text">{children}</span>

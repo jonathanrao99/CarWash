@@ -19,7 +19,7 @@ export default function PricingPage() {
               From a quick $9 wash to complete $399.99 showroom detailing, find
               the package that fits your needs.
             </p>
-            <Button href="/contact-us">Book an Appointment</Button>
+            <Button href="/contact-us">Book My Wash</Button>
           </div>
           <img src={assets.detailPoster} alt="Detailing package preview" />
         </section>

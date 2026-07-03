@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Button as QuoteButton } from "../components/ui/button";
+import { Button } from "../components/ui/button";
 import { useState } from "react";
+import { Phone } from "lucide-react";
 
 const assets = {
   logoDark: "/carLogo-Picsart-BackgroundRemover.png",
@@ -153,30 +154,6 @@ function VideoBackground({ poster, src, className = "" }) {
   );
 }
 
-function Button({ children, href = "/contact-us", variant = "primary" }) {
-  const className = `button ${variant}`;
-  const content = (
-    <>
-      <span>{children}</span>
-      <span aria-hidden="true">-&gt;</span>
-    </>
-  );
-
-  if (href.startsWith("/")) {
-    return (
-      <Link className={className} href={href}>
-        {content}
-      </Link>
-    );
-  }
-
-  return (
-    <a className={className} href={href}>
-      {content}
-    </a>
-  );
-}
-
 function SectionHeading({ eyebrow, title, copy, action }) {
   return (
     <div className="section-heading">
@@ -230,7 +207,7 @@ function Header() {
             ))}
           </nav>
         </div>
-        <QuoteButton href="/contact-us">Book an Appointment</QuoteButton>
+        <Button href="/contact-us">Book My Wash</Button>
         <Link className="mobile-menu-button" href="/all-pages" aria-label="Open navigation">
           <img src={assets.mobileMenu} alt="" aria-hidden="true" />
         </Link>
@@ -251,7 +228,7 @@ function Hero() {
             advanced technology and old-fashioned attention to detail.
           </p>
           <div className="hero-actions">
-            <Button>Book an Appointment</Button>
+            <Button>Book My Wash</Button>
           </div>
         </div>
         <div className="hero-feature-card">
@@ -262,11 +239,12 @@ function Hero() {
             <span>Drive Clean. Drive Proud.</span>
             <p>
               From express washes and hand detailing to Pennzoil oil changes,
-              we deliver professional care at every visit.
+              we deliver professional care at every visit. Trust your car to the
+              team that treats every vehicle like it is our own.
             </p>
-            <Button href="/about-us" variant="ghost">
+            <Link href="/about-us" className="hero-text-link">
               Learn more about us
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -287,21 +265,6 @@ function About() {
             <img key={image} src={image} alt={`Car care detail ${index + 1}`} />
           ))}
         </div>
-        <div className="why-content">
-          <p>
-            Your car deserves more than a basic wash<br />
-            Advanced technology, precision hand detailing and complete car care<br />
-            at our Westheimer location
-          </p>
-          <div className="why-actions">
-            <Button href="/about-us" variant="secondary">
-              About Us
-            </Button>
-            <Button href="/services" variant="secondary">
-              Services
-            </Button>
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -314,7 +277,7 @@ function Services() {
         eyebrow="Services"
         title="Complete Vehicle Care"
         copy="From quick washes to complete detailing and oil changes, every service is performed by trained professionals."
-        action={<Button href="/services" variant="secondary">View All Services</Button>}
+        action={<Link href="/services" className="section-action-link">View All Services</Link>}
       />
       <div className="service-list">
         {serviceCards.map((service, index) => (
@@ -347,7 +310,7 @@ function Detailing() {
         />
         <div className="detailing-content-card">
           <div className="experience-card">
-            <strong>12+</strong>
+            <strong>6+</strong>
             <span>Years Experience</span>
           </div>
           <div className="feature-list">
@@ -366,9 +329,7 @@ function Detailing() {
               </p>
             </article>
           </div>
-          <Button href="/about-us" variant="secondary">
-            Learn More
-          </Button>
+          <Link href="/about-us" className="why-text-link why-text-link--light">Learn More</Link>
         </div>
       </div>
     </section>
@@ -383,7 +344,7 @@ function Pricing() {
           eyebrow="Pricing"
           title="Select Services"
           copy="Flexible packages from a quick $9 wash to complete $399.99 showroom detailing."
-          action={<Button href="/pricing" variant="secondary">View All</Button>}
+          action={<Link href="/pricing" className="section-action-link">View All</Link>}
         />
         <div className="pricing-grid">
           {pricingCards.map((item) => (
@@ -532,12 +493,11 @@ function Footer() {
       <div className="footer-top">
         <img src={assets.logoLight} alt="CarWashSuperShine" />
         <div className="footer-title-wrapper">
-          <h2>Visit our Westheimer location in Houston</h2>
+          <h2>Drive Away Looking Brand New</h2>
+          <p>Fast service. Professional results. Book online in under a minute.</p>
           <div className="footer-ctas">
-            <Button href="/contact-us">Book an Appointment</Button>
-            <a className="support-link" href="tel:+12817700120">
-              Call Us Now
-            </a>
+            <Button href="/contact-us">Book My Wash</Button>
+            <a className="phone-icon-link" href="tel:+12817700120" aria-label="Call us"><Phone size={24} /></a>
           </div>
         </div>
       </div>
@@ -550,7 +510,7 @@ function Footer() {
           </div>
           <div className="footer-block">
             <h3>Houston Westheimer</h3>
-            <p>12810 Westheimer Road, Houston, TX 77077</p>
+            <a href="https://maps.app.goo.gl/Ro6u4YjgSfZZqn9q7" target="_blank" rel="noopener noreferrer">12810 Westheimer Road, Houston, TX 77077</a>
             <p>Open Daily 8am - 6pm</p>
           </div>
         </div>
@@ -559,7 +519,7 @@ function Footer() {
           <div className="footer-block">
             <h3>Helpful Resources</h3>
             <Link href="/pricing">Exclusive Package Deals</Link>
-            <Link href="/services">View All Services</Link>
+            <Link href="/blog">Explore Our Blog</Link>
           </div>
         </div>
         <span className="footer-divider" aria-hidden="true" />
@@ -579,7 +539,7 @@ function Footer() {
       <div className="footer-bottom">
         <p>CarWashSuperShine. All rights reserved.</p>
         <p>
-          Designed by <a href="https://fourtwelve.co/">fourtwelve</a>
+          Designed by <a href="https://sol3studio.com/" target="_blank" rel="noopener noreferrer">Sol3 Studio</a>
         </p>
       </div>
     </footer>

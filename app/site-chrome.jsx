@@ -1,30 +1,9 @@
 import Link from "next/link";
 import { assets, footerLinks, navLinks } from "./site-data";
-import { Button as QuoteButton } from "../components/ui/button";
+import { Button as AnimatedButton } from "../components/ui/button";
+import { Phone } from "lucide-react";
 
-export function Button({ children, href = "/contact-us", variant = "primary" }) {
-  const className = `button ${variant}`;
-  const content = (
-    <>
-      <span>{children}</span>
-      <span aria-hidden="true">-&gt;</span>
-    </>
-  );
-
-  if (href.startsWith("/")) {
-    return (
-      <Link className={className} href={href}>
-        {content}
-      </Link>
-    );
-  }
-
-  return (
-    <a className={className} href={href}>
-      {content}
-    </a>
-  );
-}
+export const Button = AnimatedButton;
 
 export function SectionHeading({ eyebrow, title, copy, action }) {
   return (
@@ -39,9 +18,10 @@ export function SectionHeading({ eyebrow, title, copy, action }) {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ transparent, scrolled }) {
+  const headerClass = `site-header${transparent ? " transparent" : ""}${scrolled ? " scrolled" : ""}`;
   return (
-    <header className="site-header">
+    <header className={headerClass}>
       <div className="header-inner">
         <div className="header-left">
           <Link className="logo" href="/" aria-label="CarWashSuperShine home">
@@ -62,7 +42,7 @@ export function SiteHeader() {
             ))}
           </nav>
         </div>
-        <QuoteButton href="/contact-us">Book an Appointment</QuoteButton>
+        <Button href="/contact-us">Book My Wash</Button>
         <Link className="mobile-menu-button" href="/all-pages" aria-label="Open navigation">
           <img src={assets.mobileMenu} alt="" aria-hidden="true" />
         </Link>
@@ -77,12 +57,11 @@ export function SiteFooter() {
       <div className="footer-top">
         <img src={assets.logoLight} alt="CarWashSuperShine" />
         <div className="footer-title-wrapper">
-          <h2>Visit our Westheimer location in Houston</h2>
+          <h2>Drive Away Looking Brand New</h2>
+          <p>Fast service. Professional results. Book online in under a minute.</p>
           <div className="footer-ctas">
-            <Button href="/contact-us">Book an Appointment</Button>
-            <a className="support-link" href="tel:+12817700120">
-              Call Us Now
-            </a>
+            <Button href="/contact-us">Book My Wash</Button>
+            <a className="phone-icon-link" href="tel:+12817700120" aria-label="Call us"><Phone size={24} /></a>
           </div>
         </div>
       </div>
@@ -96,7 +75,7 @@ export function SiteFooter() {
           </div>
           <div className="footer-block">
             <h3>Houston Westheimer</h3>
-            <p>12810 Westheimer Road, Houston, TX 77077</p>
+            <a href="https://maps.app.goo.gl/Ro6u4YjgSfZZqn9q7" target="_blank" rel="noopener noreferrer">12810 Westheimer Road, Houston, TX 77077</a>
             <p>Open Daily 8am - 6pm</p>
           </div>
         </div>
@@ -126,7 +105,7 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <p>CarWashSuperShine. All rights reserved.</p>
         <p>
-          Designed by <a href="https://fourtwelve.co/">fourtwelve</a>
+          Designed by <a href="https://sol3studio.com/" target="_blank" rel="noopener noreferrer">Sol3 Studio</a>
         </p>
       </div>
     </footer>

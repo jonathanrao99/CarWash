@@ -167,7 +167,7 @@ export const footerLinks = [
   { label: "View All Services", href: "/services" },
   { label: "Learn About Us", href: "/about-us" },
   { label: "Package Deals", href: "/pricing" },
-  { label: "Blog", href: "/blog" },
+  { label: "Explore Our Blog", href: "/blog" },
   { label: "Our Team", href: "/our-team" },
   { label: "Contact Us", href: "/contact-us" },
 ];

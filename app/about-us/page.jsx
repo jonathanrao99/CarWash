@@ -1,29 +1,33 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button, SectionHeading, SiteFooter, SiteHeader } from "../site-chrome";
 import { assets, teamMembers } from "../site-data";
 
-export const metadata = {
-  title: "About Us | CarWashSuperShine",
-  description: "Super Shine Car Wash & Lube is Houston's trusted name for car wash, detailing, express lube, and preventative maintenance at our Westheimer location.",
-};
-
 export default function AboutPage() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
-      <SiteHeader />
-      <main className="page-main">
-        <section className="page-hero">
-          <div>
+      <SiteHeader transparent scrolled={scrolled} />
+      <main>
+        <section className="about-hero">
+          <img src={assets.aboutPoster} alt="" className="about-hero-bg" />
+          <div className="about-hero-overlay" />
+          <div className="about-hero-content">
             <p className="eyebrow">About Us</p>
-            <h1>Car care you can trust</h1>
-          <p>
-            Super Shine Car Wash & Lube is a one-stop destination for premium
-            car care in Houston. We offer touch-free automatic washes,
-            showroom-quality detailing, and express lube services at our
-            Westheimer location.
-          </p>
-            <Button href="/contact-us">Book an Appointment</Button>
+            <h1>More Than a Car Wash</h1>
+            <p>
+              From touch-free washes to showroom-quality detailing and express lube services, we help keep your vehicle looking its best — quickly, professionally, and with care.
+            </p>
+            <Button href="/contact-us">Book My Wash</Button>
           </div>
-          <img src={assets.aboutPoster} alt="CarWashSuperShine detailing process" />
         </section>
         <section className="page-section">
           <SectionHeading
@@ -33,7 +37,7 @@ export default function AboutPage() {
           />
           <div className="stat-grid">
             <article>
-              <strong>12+</strong>
+              <strong>6+</strong>
               <span>Years Experience</span>
             </article>
             <article>
